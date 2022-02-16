@@ -9,7 +9,7 @@ About This Mac clone for pearOS forked from [AboutThisMc](https://github.com/hun
 ```bash
 cd ~
 git clone https://github.com/RickRollMaster101/About-This-Pearintosh
-cd about-this-pear
+cd About-This-Pearintosh
 chmod +x install.sh
 ./install.sh
 ```
