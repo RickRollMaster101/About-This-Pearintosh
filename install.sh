@@ -22,6 +22,25 @@ if [ ! -f /usr/bin/python3 ]; then
     fi
 fi
 
+if [ ! -f /usr/bin/figlet ]; then
+    if [ -f /etc/debian_version ]; then
+        sudo apt-get install -y figlet
+        elif [ -f /etc/redhat-release ]; then
+        sudo yum install figlet
+        elif [ -f /etc/arch-release ]; then
+        sudo pacman -Sy --noconfirm figlet
+        elif [ -f /etc/gentoo-release ]; then
+        sudo emerge figlet
+        elif [ -f /etc/SuSE-release ]; then
+        sudo zypper install figlet
+        elif [ -f /etc/fedora-release ]; then
+        sudo dnf install figlet
+        elif [ -f /etc/centos-release ]; then
+        sudo yum install figlet
+        elif [ -f /etc/nixos ]; then
+        sudo nix-env -iA figlet
+    fi
+fi
 
 pip install numpy
 
