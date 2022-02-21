@@ -1,0 +1,11 @@
+pkgbase = about-this-pear
+	pkgdesc = About this mac clone for pearOS
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/RickRollMaster101/About-This-Pearintosh
+	arch = x86_64
+	license = GPL
+	depends = python3
+	source = About-This-Pearintosh.tar.gz
+
+pkgname = about-this-pear
