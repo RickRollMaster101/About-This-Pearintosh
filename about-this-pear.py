@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from operator import sub
 import webbrowser
 import subprocess
 from typing import OrderedDict
@@ -368,7 +369,10 @@ def start_configuration(config_path=DEFAULT_OV_CONF):
                 json_data["startup_disk"] = line[1]
             break
 
-    json_data["graphics"] = neofetch_sys_info["GPU"]
+    #json_data["graphics"] = neofetch_sys_info["GPU"]
+    
+    gpu_name = subprocess.check_output("curl -s https://raw.githubusercontent.com/RickRollMaster101/About-This-Pearintosh/master/scripts/totally-not-stolen-from-neofetch.sh | bash", shell=True)
+    json_data["graphics"] = gpu_name.decode("utf-8").strip("\n") 
 
     json_data["serial_num"] = get_sys_stdout(r"pkexec dmidecode --type baseboard | grep Serial | sed 's/^[ \t]*Serial Number: //'").decode("utf-8").strip("\n")
 
