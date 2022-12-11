@@ -111,8 +111,10 @@ class MainWindow(Gtk.Window):
             system_info.pack_start(line, False, False, 0)
         
         # Initialize additional buttons
-        sys_report_btn = Gtk.Button(label="System Report...")
-        software_upd_btn = Gtk.Button(label="Software Update...")
+        sys_report_btn = Gtk.Button(label="Change Icon")
+        sys_report_btn.connect('clicked', self.icon_btn_clicked)
+        software_upd_btn = Gtk.Button(label="Update System Info")
+        software_upd_btn.connect("clicked", self.update_btn_clicked)
         addi_btn.pack_start(sys_report_btn, False, False, 0)
         addi_btn.pack_start(software_upd_btn, False, False, 0)
 
@@ -224,6 +226,44 @@ class MainWindow(Gtk.Window):
     def gitrepo_btn_clicked(self, widget):
         print("Git Repo button clicked")
         webbrowser.open("https://github.com/RickRollMaster101/About-This-Pearintosh")
+    
+    def update_btn_clicked(self, widget):
+        start_configuration()
+        dialog = Gtk.MessageDialog(transient_for=self, flags=0, buttons=Gtk.ButtonsType.OK, text='Done')
+        dialog.format_secondary_text('You will need to reopen About This Pear for the changes to appear.')
+        dialog.run()
+        dialog.destroy()
+    
+    def icon_btn_clicked(self, widget):
+        filechooserdialog = Gtk.FileChooserDialog(title="Open...",
+            parent=None,
+            action=Gtk.FileChooserAction.OPEN)
+        filechooserdialog.add_buttons("_Open", Gtk.ResponseType.OK)
+        filechooserdialog.add_buttons("_Cancel", Gtk.ResponseType.CANCEL)
+        filechooserdialog.set_default_response(Gtk.ResponseType.OK)
+
+        response = filechooserdialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            with open(self.overview_json_path, 'r') as f:
+                json_data = json.load(f)
+                json_data['distro_image_path'] = filechooserdialog.get_filename()
+
+            with open(self.overview_json_path, 'w') as f:
+                f.write(json.dumps(json_data, indent=2))
+            filechooserdialog.destroy()
+            
+            dialog = Gtk.MessageDialog(transient_for=self, flags=0, buttons=Gtk.ButtonsType.OK, text='Done')
+            dialog.format_secondary_text('You will need to reopen About This Pear for the changes to appear.')
+            dialog.run()
+            dialog.destroy()
+            
+        else:
+            pass
+
+        filechooserdialog.destroy()
+
+
 
 clrscr = lambda: os.system("clear")
 
