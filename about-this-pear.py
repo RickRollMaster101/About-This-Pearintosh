@@ -152,7 +152,7 @@ class MainWindow(Gtk.Window):
         monitor_name = Gtk.Label()
         monitor_name.set_markup(f"<span font-size='large' font_weight='bold'>{conf['graphics']}</span>")
         fixed.put(monitor_name, 200, 175)
-
+        
         monitor_res = Gtk.Label()
         monitor_res.set_markup(conf["monitor_res"])
         fixed.put(monitor_res, 275, 225)
@@ -160,7 +160,9 @@ class MainWindow(Gtk.Window):
         # Initialize monitor image
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(conf["monitor_image_path"], conf["monitor_image_size"][0], conf["monitor_image_size"][1], True)
         monitor_img = Gtk.Image.new_from_pixbuf(pixbuf)
-        fixed.put(monitor_img, 230, 50)
+        monitor_x = 625/2 - 160/2
+        monitor_y = 350/2 - 160/2 - 50
+        fixed.put(monitor_img, monitor_x, monitor_y)
 
     def support_init(self):
         with open(self.overview_json_path, mode="rt") as f:
