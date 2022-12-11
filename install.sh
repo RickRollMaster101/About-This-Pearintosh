@@ -52,7 +52,7 @@ if [ ! -f /home/`whoami`/.local/bin ]; then
     mkdir -p /home/`whoami`/.local/bin
 fi
 
-mv about-this-pear.py /home/`whoami`/.local/bin/about-this-pear
+cp about-this-pear.py /home/`whoami`/.local/bin/about-this-pear
 mv overview-conf.json /home/`whoami`/.local/bin/overview-conf.json
 cd /home/`whoami`/.local/bin
 chmod +x about-this-pear
