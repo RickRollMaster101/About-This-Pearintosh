@@ -8,8 +8,19 @@ from numpy import fix
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Gdk
 
+login = os.getlogin()
+if login == "root":
+    login = os.getenv("USER")
+
+
+
 SCRIPTDIR = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_OV_CONF = SCRIPTDIR + "/overview-conf.json"
+CONFIGFOLDER = f'/home/{login}/.config/about-this-pear'
+if os.path.exists(CONFIGFOLDER):
+    pass
+else:
+    os.mkdir(CONFIGFOLDER)
+DEFAULT_OV_CONF = CONFIGFOLDER + "/overview-conf.json"
 
 def show_error(maintext, secondarytext):
     print(maintext, ":", secondarytext)
@@ -420,16 +431,16 @@ def start_configuration(config_path=DEFAULT_OV_CONF):
 
     while True:
         clrscr()
-        json_data["distro_image_path"] = SCRIPTDIR + "/logo.png"
+        json_data["distro_image_path"] = CONFIGFOLDER + "/logo.png"
         break
 
     # find the display resolution
     output = subprocess.check_output("X=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1)" + " && " + "Y=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2) && " + "echo $X x $Y", shell=True)
     json_data["monitor_res"] = output.decode("utf-8").strip("\n")    
 
-    json_data["monitor_image_path"] = SCRIPTDIR + "/desktop.png"
+    json_data["monitor_image_path"] = CONFIGFOLDER + "/desktop.png"
 
-    json_data["support_image_path"] = SCRIPTDIR + "/support.png"
+    json_data["support_image_path"] = CONFIGFOLDER + "/support.png"
     
     with open(config_path, mode="wt") as f:
         json.dump(json_data, f, indent=2)
@@ -508,6 +519,9 @@ elif command == "load-overview":
     normal_run(sys.argv[2])
 else:
     if not os.path.exists(DEFAULT_OV_CONF):
+        os.system(f'cp desktop.png {CONFIGFOLDER}')
+        os.system(f'cp logo.png {CONFIGFOLDER}')
+        os.system(f'cp support.png {CONFIGFOLDER}')
         start_configuration()
     else:
         normal_run()

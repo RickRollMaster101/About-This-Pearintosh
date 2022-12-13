@@ -22,29 +22,7 @@ if [ ! -f /usr/bin/python3 ]; then
     fi
 fi
 
-if [ ! -f /usr/bin/figlet ]; then
-    if [ -f /etc/debian_version ]; then
-        sudo apt-get install -y figlet
-        elif [ -f /etc/redhat-release ]; then
-        sudo yum install figlet
-        elif [ -f /etc/arch-release ]; then
-        sudo pacman -Sy --noconfirm figlet
-        elif [ -f /etc/gentoo-release ]; then
-        sudo emerge figlet
-        elif [ -f /etc/SuSE-release ]; then
-        sudo zypper install figlet
-        elif [ -f /etc/fedora-release ]; then
-        sudo dnf install figlet
-        elif [ -f /etc/centos-release ]; then
-        sudo yum install figlet
-        elif [ -f /etc/nixos ]; then
-        sudo nix-env -iA figlet
-    fi
-fi
-
 pip install numpy
-
-rm overview-conf.json
 
 python3 about-this-pear.py 
 
@@ -53,8 +31,7 @@ if [ ! -f /home/`whoami`/.local/bin ]; then
 fi
 
 cp about-this-pear.py /home/`whoami`/.local/bin/about-this-pear
-mv overview-conf.json /home/`whoami`/.local/bin/overview-conf.json
 cd /home/`whoami`/.local/bin
 chmod +x about-this-pear
 cd -
-figlet -f big "DONT DELETE THIS FOLDER!"
+echo You may need to add /home/`whoami`/.local/bin to your '$PATH' environment variable
